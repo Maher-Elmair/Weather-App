@@ -1,60 +1,41 @@
-// ✅ استيراد ملفات التنسيق والمكونات المحلية
 import "./App.css";
-// import Test from "./Test";
-
-// ✅ استيراد إعدادات الثيم من مكتبة MUI
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-// ✅ استيراد Hooks من React
 import { useEffect, useState } from "react";
-
-// ✅ استيراد مكونات جاهزة من MUI
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import CloudIcon from "@mui/icons-material/Cloud";
 import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
 
-// ✅ استيراد مكتبات خارجية
-import axios from "axios";
 import moment from "moment/min/moment-with-locales";
-import "moment/min/locales"; // لدعم التواريخ بلغات متعددة
+import "moment/min/locales";
 import { useTranslation } from "react-i18next";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchWeather } from "./weatherApiSlice";
 
-// ✅ إعداد اللغات المتاحة لـ moment
-// import "moment/locale/ar";
 moment.locale("ar");
 
-// ✅ إنشاء الثيم المخصص باستخدام خط IBM
 const theme = createTheme({
   typography: {
-    fontFamily: ["IBM"], // يتم تعريف هذا الخط في ملف App.css
+    fontFamily: ["IBM"],
   },
 });
 
-// ✅ متغير عام لإلغاء الطلب في حال مغادرة المكون
-let cancelAxios = null;
-
 function App() {
-  const { t, i18n } = useTranslation(); // 🔁 الترجمة الدولية
+  const dispatch = useDispatch();
 
-  //============================//
-  // 🔵 تعريف الحالات (States)
-  //============================//
-  const [dateAndTime, setDateAndTime] = useState(""); // ⏰ لحفظ التاريخ والوقت الحالي
-  const [temp, setTemp] = useState({
-    number: null,
-    description: "",
-    min: null,
-    max: null,
-    icon: null,
-  }); // 🌡️ بيانات الطقس
+  // 🎛️ قراءة حالة التحميل وبيانات الطقس من الـ Redux Store
+  const isLoading = useSelector((state) => state.weather.isLoading);
+  const temp = useSelector((state) => state.weather.weather);
 
-  const [locale, setLocale] = useState("ar"); // 🌐 اللغة الحالية
-  const direction = locale === "ar" ? "rtl" : "ltr"; // 🔄 اتجاه الصفحة
+  const { t, i18n } = useTranslation();
 
-  //============================//
-  // 🟢 تغيير اللغة عند الضغط
-  //============================//
+  // 🕰️ حالات التخزين للوقت واللغة
+  const [dateAndTime, setDateAndTime] = useState("");
+  const [locale, setLocale] = useState("ar");
+  const direction = locale === "ar" ? "rtl" : "ltr";
+
+  // 🔄 تغيير اللغة والتاريخ عند الضغط على الزر
   function handleLanguageClick() {
     if (locale === "en") {
       setLocale("ar");
@@ -65,65 +46,20 @@ function App() {
       i18n.changeLanguage("en");
       moment.locale("en");
     }
-    // تحديث التاريخ بعد تغيير اللغة
     const dateAndTime = moment().format("MMMM Do YYYY");
     setDateAndTime(dateAndTime);
   }
 
-  //============================//
-  // 🟡 ضبط اللغة عند تحميل التطبيق
-  //============================//
+  // ⚡ جلب بيانات الطقس عند تحميل المكون
   useEffect(() => {
+    dispatch(fetchWeather());
     i18n.changeLanguage(locale);
   }, []);
 
-  //============================//
-  // 🔴 جلب بيانات الطقس من API
-  //============================//
+  // ⏰ تحديث الوقت الحالي عند تحميل المكون
   useEffect(() => {
-    // ⏰ تنسيق الوقت حسب اللغة
     const dateAndTime = moment().format("MMMM Do YYYY");
     setDateAndTime(dateAndTime);
-
-    // 📡 إرسال الطلب
-    axios
-      .get(
-        "https://api.openweathermap.org/data/2.5/weather?lat=42.7&lon=46.5&appid=d007be9936701288587b77f1f867b83d",
-        {
-          cancelToken: new axios.CancelToken((c) => {
-            cancelAxios = c;
-          }),
-        }
-      )
-      .then(function (response) {
-        // ✅ استخراج البيانات من الاستجابة
-        const responseTemp = Math.round(response.data.main.temp - 272.15); // تحويل من كلفن إلى مئوي
-        const min = Math.round(response.data.main.temp_min - 272.15);
-        const max = Math.round(response.data.main.temp_max - 272.15);
-        const description = response.data.weather[0].description;
-        const responseIcon = response.data.weather[0].icon;
-
-        // 📥 حفظ البيانات في الحالة
-        setTemp({
-          number: responseTemp,
-          description: description,
-          min: min,
-          max: max,
-          icon: `https://openweathermap.org/img/wn/${responseIcon}@2x.png`,
-        });
-
-        console.log(response);
-      })
-      .catch(function (error) {
-        // ❌ في حال وجود خطأ
-        console.log(error);
-      });
-
-    // 🧹 تنظيف الطلب عند الخروج
-    return () => {
-      console.log("canceling");
-      cancelAxios();
-    };
   }, []);
 
   //============================//
@@ -206,6 +142,11 @@ function App() {
                         justifyContent: "space-between",
                       }}
                     >
+                      {isLoading ? (
+                        <CircularProgress style={{ color: "white" }} />
+                      ) : (
+                        ""
+                      )}
                       <Typography variant="h1" style={{ textAlign: "right" }}>
                         {temp.number}
                       </Typography>

@@ -1,0 +1,16 @@
+{
+  "Riyadh": "الرياض",
+  "min": "الصغرى",
+  "max": "الكبرى",
+  "light rain": "أمطار خفيفة",
+  "few clouds": "سحب قليلة",
+  "clear sky": "سماء صافية",
+  "scattered clouds": "سحب متفرقة",
+  "broken clouds": "سحب مكسورة",
+  "shower rain": "زخات مطر",
+  "rain": "ممطر",
+  "thunderstorm": "عاصفة رعدية",
+  "overcast clouds": "غيوم كثيفة",
+  "snow": "ثلج",
+  "mist": "ضباب"
+}

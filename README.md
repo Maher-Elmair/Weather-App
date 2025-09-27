@@ -32,28 +32,33 @@ The app supports **bilingual UI (Arabic & English)**, **RTL layout**, and locali
 
 ## 🧠 React Concepts Used
 
-| Concept                | Usage                                                   |
-|------------------------|---------------------------------------------------------|
-| `useState`             | Manage weather data, locale, and date/time states       |
-| `useEffect`            | Fetch weather data & update date on component load      |
-| `useTranslation`       | Provide bilingual (Arabic/English) text rendering       |
-| `Conditional Rendering`| Dynamically render weather icons and text               |
-| `ThemeProvider`        | Apply custom Material UI theme globally                 |
+| Concept                 | Usage                                                 |
+| ----------------------- | ----------------------------------------------------- |
+| `useState`              | Manage locale, and date/time states                   |
+| `useEffect`             | Fetch weather data & update date on component load    |
+| `useReducer`            | Centralized state management for weather and UI logic |
+| `useTranslation`        | Provide bilingual (Arabic/English) text rendering     |
+| `Conditional Rendering` | Dynamically render weather icons and text             |
+| `ThemeProvider`         | Apply custom Material UI theme globally               |
+
 
 ---
 
 ## 🧰 Tools & Libraries
 
-| Tool                   | Purpose                                           |
-|------------------------|---------------------------------------------------|
-| **React**              | Main framework for UI logic                       |
-| **Vite**               | Fast development environment and bundler          |
-| **Material UI (MUI)**  | UI components, theming, and icons                 |
-| **Axios**              | API requests to OpenWeatherMap                    |
-| **Moment.js**          | Localized date & time formatting                  |
-| **i18next**            | Translation and multilingual support              |
-| **OpenWeatherMap API** | Weather data source                               |
-| **IBM Font**           | Custom typography                                 |
+| Tool                   | Purpose                                                |
+| ---------------------- | ------------------------------------------------------ |
+| **React**              | Main framework for UI logic                            |
+| **Vite**               | Fast development environment and bundler               |
+| **Material UI (MUI)**  | UI components, theming, and icons                      |
+| **Axios**              | API requests to OpenWeatherMap                         |
+| **Moment.js**          | Localized date & time formatting                       |
+| **i18next**            | Translation and multilingual support                   |
+| **OpenWeatherMap API** | Weather data source                                    |
+| **IBM Font**           | Custom typography                                      |
+| **useReducer**         | State management hook inspired by `Array.reduce`       |
+| **gh-pages**           | Deployment tool for publishing the app on GitHub Pages |
+
 
 ---
 

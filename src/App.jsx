@@ -82,7 +82,7 @@ function App() {
             {/* ✅ البطاقة (Card) */}
             <div
               style={{
-                width: "100%",
+                // width: "100%",
                 background: "rgb(28 29 91 / 36%)",
                 color: "white",
                 padding: "32px",
@@ -104,19 +104,20 @@ function App() {
                 >
                   <Typography
                     variant="h2"
-                    style={{
-                      marginRight: "20px",
-                      fontWeight: "600",
+                    sx={{
+                      fontWeight: 600,
+                      fontSize: { xs: "1.8rem", sm: "2.5rem", md: "3rem" },
                     }}
                   >
                     {t("Riyadh")}
                   </Typography>
                   <Typography
                     variant="h5"
-                    style={{
-                      marginRight: "20px",
-                      fontWeight: "200",
-                      opacity: "0.9",
+                    sx={{
+                      fontWeight: 200,
+                      opacity: 0.9,
+                      mx: 2,
+                      fontSize: { xs: "0.9rem", sm: "1.2rem" },
                     }}
                   >
                     {dateAndTime}
@@ -130,6 +131,7 @@ function App() {
                   style={{
                     display: "flex",
                     justifyContent: "space-around",
+                    flexWrap: "wrap",
                   }}
                 >
                   {/* 🔸 البيانات النصية */}
@@ -147,13 +149,27 @@ function App() {
                       ) : (
                         ""
                       )}
-                      <Typography variant="h1" style={{ textAlign: "right" }}>
+                      <Typography
+                        variant="h1"
+                        sx={{
+                          textAlign: "center",
+                          fontSize: { xs: "2.8rem", sm: "4rem" },
+                        }}
+                      >
                         {temp.number}
                       </Typography>
                       <img src={temp.icon} alt="Weather icon" />
                     </div>
 
-                    <Typography variant="h6">{t(temp.description)}</Typography>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        mt: 1,
+                        fontSize: { xs: "1rem", sm: "1.2rem" },
+                      }}
+                    >
+                      {t(temp.description)}
+                    </Typography>
 
                     {/* 🔸 الحد الأدنى والأقصى */}
                     <div
@@ -175,8 +191,8 @@ function App() {
 
                   {/* 🔹 أيقونة سحاب */}
                   <CloudIcon
-                    style={{
-                      fontSize: "200px",
+                    sx={{
+                      fontSize: { xs: 100, sm: 180, md: 200 },
                       color: "white",
                     }}
                   />
@@ -195,7 +211,10 @@ function App() {
               dir={direction}
             >
               <Button
-                style={{ color: "white" }}
+                sx={{
+                  color: "white",
+                  fontSize: { xs: "0.9rem", sm: "1rem" },
+                }}
                 variant="text"
                 onClick={handleLanguageClick}
               >
